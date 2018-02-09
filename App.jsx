@@ -25,14 +25,13 @@
 
     	componentDidMount(){
 			document.addEventListener('keyup', (event) => {
-			  let ar = this.state.arr;
+			  let updatedGrid = this.state.grid;
 			  let counts = this.state.counts
 			  let selectedRow = this.state.selectedRow;
 			  let selectedCol = this.state.selectedCol;
 			  let newRow = selectedRow,newCol = selectedCol;
 			  var  keyName = event.key;
 			  var keycode = event.keyCode
-			      console.log('Combination of ctrlKey'+keycode+"  " +keyName);
 			   if(keycode==38){
 			   	if(selectedRow==0)
 			   		return
@@ -58,7 +57,7 @@
 			   }	
 			   counts++;
 			   let itemCount = this.state.itemCount;
-			   if(arr[newRow][newCol] ===1){
+			   if(updatedGrid[newRow][newCol] ===1){
 			  	--itemCount; 
 			  	if(itemCount == 0){
 			  		setTimeout(function(){
@@ -66,17 +65,16 @@
 			  	},300);
 			  	}
 			  }
-			  arr[selectedRow][selectedCol] = 0;
-			  arr[newRow][newCol] = 2;
-			  this.setState({arr: ar,selectedRow:newRow,selectedCol: newCol,counts:counts,
+			  updatedGrid[selectedRow][selectedCol] = 0;
+			  updatedGrid[newRow][newCol] = 2;
+			  this.setState({grid: updatedGrid,selectedRow:newRow,selectedCol: newCol,counts:counts,
 			  	itemCount: itemCount});
 			}, false); 
 
 
-    		var arr = []
+    		var initialGrid = []
     		let numRows=this.props.rows
     		let numCols = this.props.columns
-    		console.log("numRows"+numRows+ " " +this.props.columns)
     		let itemCount = 0;
     		for(var i=0;i<numRows;i++){
     			var col = Math.ceil(numCols*Math.random())-1;
@@ -91,27 +89,24 @@
 	  					colpos.push(0)
     				}
     			}
-    			arr.push(colpos)	
-    			//rows.push(<tr>{columns}</tr>);
+    			initialGrid.push(colpos)	
     		}
-    		console.log("Item count "+itemCount);
     		let selectedRow = parseInt(numRows/2);
     		let selectedCol = parseInt(numCols/2);
-    		if(arr[selectedRow][selectedCol] === 1){
+    		if(initialGrid[selectedRow][selectedCol] === 1){
     			--itemCount;
     		}
-    		arr[selectedRow][selectedCol] = 2;
-    		this.setState({arr:arr,ready:true,selectedRow:selectedRow,selectedCol:selectedCol,itemCount: itemCount});
+    		initialGrid[selectedRow][selectedCol] = 2;
+    		this.setState({grid:initialGrid,ready:true,selectedRow:selectedRow,selectedCol:selectedCol,itemCount: itemCount});
 		}
 
         render() {
         	const that = this;
         	let getRows = function(){
         		var rows =[]
-	    		var arr = that.state.arr;
+	    		var grid = that.state.grid;
 	    		let numRows=that.props.rows
 	    		let numCols = that.props.columns
-	    		console.log("numRows"+numRows+ " " +that.props.columns)
 	    		const tdStyle = {border:"1px solid black",height:"70px",width:"70px"};
 
 	    		for(var i=0;i<numRows;i++){
@@ -120,9 +115,9 @@
 	    			var columns = []
 	    			for(var j=0;j<numCols;j++){
 
-	    				if(arr[i][j] == 1){
+	    				if(grid[i][j] == 1){
 	    					columns.push(<td style={tdStyle} key={j}><img src="emoticon.png"/></td>)
-	    				}else if(arr[i][j] == 2){
+	    				}else if(grid[i][j] == 2){
 	    					
 		  					columns.push(<td style={tdStyle} key={j}><img src="baby-head-with-a-small-heart-outline.png"/></td>)
 		  				//numRows++
