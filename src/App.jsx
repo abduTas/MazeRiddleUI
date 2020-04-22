@@ -18,13 +18,22 @@ export default class App extends React.Component {
         <h3>Enter number of rows</h3>
         <input
           type="text"
+          value={rows ?? ''}
           onChange={(e) => this.setState({ rows: event.target.value })}
         />
         <h4>Enter number of columns</h4>
         <input
           type="text"
+          value={columns ?? ''}
           onChange={(e) => this.setState({ columns: event.target.value })}
         />
+        <button
+          style={{ marginLeft: '50px' }}
+          type="button"
+          onClick={() => this.setState({ rows: null, columns: null })}
+        >
+          Restart
+        </button>
         {rows && columns && (
           <Rows rows={this.state.rows} columns={this.state.columns} />
         )}
